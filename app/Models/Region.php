@@ -10,4 +10,15 @@ class Region extends Model
     use HasFactory;
     protected $table = 'regions';
     protected $fillable = ['id','name'];
+
+    public function addresses()
+    {
+        return $this -> hasManyThrough(
+            GeoCoordinate::class,
+            City::class,
+            'region_id',
+            'city_id'
+        );
+    }
+
 }

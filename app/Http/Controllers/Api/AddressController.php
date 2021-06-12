@@ -11,6 +11,19 @@ use Illuminate\Support\Facades\Validator;
 
 class AddressController extends Controller
 {
+    // получение всех адрессов которые записаны в бд или по региону
+    public function getAddresses($regionId = false)
+    {
+        // если пришел id региона
+        if ($regionId)
+        {
+            $region = Region::query() -> find($regionId);
+            // если такой регион существует отдаем адреса, если нет, ответ что его нет
+            return $region ? $region -> addresses : 'Такого региона нет';
+        } else {
+            return GeoCoordinate::all();
+        }
+    }
     // получение и сохранение адресса по координатам
     public function getMyAddress(Request $request)
     {
